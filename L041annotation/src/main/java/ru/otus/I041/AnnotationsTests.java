@@ -22,8 +22,22 @@ public class AnnotationsTests {
     }
 
     @Test
-    public void testTwo(){
-        System.out.println("testTwo");
+    public void testRight(){
+        System.out.println("testRight");
+        Assert.assertEquals( "1", "1");
+
+    }
+
+    @Test
+    public void testFailedOne(){
+        System.out.println("testFailedOne");
+        Assert.assertEquals("2", "1");
+    }
+
+    @Test
+    public void testFailedTwo(){
+        System.out.println("testFailedTwo");
+        Assert.assertEquals("2", "1");
     }
 
     @After
