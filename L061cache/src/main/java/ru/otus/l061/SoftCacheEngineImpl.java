@@ -53,15 +53,19 @@ public class SoftCacheEngineImpl<K, V> implements CacheEngine<K, V> {
     }
 
     public MyElement<K, V> get(K key) {
-        SoftReference<MyElement<K, V>> element = elements.get(key);
-        if (element != null && element.get() != null) {
-            hit++;
-            element.get().setAccessed();
-            return element.get();
-        } else {
-            miss++;
-            return null;
+        SoftReference<MyElement<K, V>> softElement = elements.get(key);
+        if (softElement != null) {
+            MyElement<K, V> element = softElement.get();
+            if ( element != null) {
+                hit++;
+                element.setAccessed();
+                return element;
+            } else {
+                miss++;
+                return null;
+            }
         }
+        return null;
     }
 
     public int getHitCount() {
