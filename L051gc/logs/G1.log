@@ -1,0 +1,128 @@
+[0.053s][info][gc] Using G1
+[0.926s][info][gc] GC(0) Pause Young (G1 Evacuation Pause) 32M->18M(512M) 44.202ms
+[1.050s][info][gc] GC(1) Pause Young (G1 Evacuation Pause) 48M->41M(512M) 107.443ms
+[1.124s][info][gc] GC(2) Pause Young (G1 Evacuation Pause) 69M->61M(512M) 58.794ms
+[1.191s][info][gc] GC(3) Pause Young (G1 Evacuation Pause) 93M->86M(512M) 51.010ms
+[1.245s][info][gc] GC(4) Pause Young (G1 Evacuation Pause) 107M->99M(512M) 44.277ms
+[1.326s][info][gc] GC(5) Pause Young (G1 Evacuation Pause) 139M->130M(512M) 59.421ms
+[1.395s][info][gc] GC(6) Pause Young (G1 Evacuation Pause) 160M->149M(512M) 42.460ms
+[2.616s][info][gc] GC(7) Pause Young (G1 Evacuation Pause) 210M->196M(512M) 96.267ms
+[46.511s][info][gc] GC(8) Pause Young (G1 Evacuation Pause) 238M->217M(512M) 42.901ms
+[46.616s][info][gc] GC(9) Pause Young (G1 Evacuation Pause) 272M->251M(512M) 56.478ms
+[46.819s][info][gc] GC(10) Pause Initial Mark (G1 Humongous Allocation) 305M->284M(512M) 157.068ms
+[46.820s][info][gc] GC(11) Concurrent Cycle
+[47.346s][info][gc] GC(11) Pause Remark 372M->372M(512M) 3.102ms
+[47.408s][info][gc] GC(11) Pause Cleanup 372M->272M(512M) 0.804ms
+[47.411s][info][gc] GC(11) Concurrent Cycle 591.411ms
+[49.790s][info][gc] GC(12) Pause Young (G1 Evacuation Pause) 272M->252M(512M) 135.788ms
+[92.209s][info][gc] GC(13) Pause Initial Mark (G1 Evacuation Pause) 313M->286M(512M) 52.456ms
+[92.209s][info][gc] GC(14) Concurrent Cycle
+[92.329s][info][gc] GC(15) Pause Young (G1 Evacuation Pause) 356M->328M(512M) 69.355ms
+[92.620s][info][gc] GC(16) Pause Young (G1 Evacuation Pause) 436M->415M(512M) 154.008ms
+[92.991s][info][gc] GC(14) Pause Remark 426M->426M(512M) 2.526ms
+[93.066s][info][gc] GC(14) Pause Cleanup 426M->342M(512M) 0.511ms
+[93.069s][info][gc] GC(14) Concurrent Cycle 859.323ms
+[137.909s][info][gc] GC(17) Pause Young (G1 Evacuation Pause) 350M->340M(512M) 47.423ms
+[138.002s][info][gc] GC(18) Pause Initial Mark (G1 Evacuation Pause) 386M->368M(512M) 66.010ms
+[138.002s][info][gc] GC(19) Concurrent Cycle
+[138.085s][info][gc] GC(20) Pause Young (G1 Evacuation Pause) 404M->391M(512M) 48.853ms
+[138.172s][info][gc] GC(21) Pause Young (G1 Evacuation Pause) 419M->409M(512M) 50.378ms
+[138.238s][info][gc] GC(22) Pause Young (G1 Evacuation Pause) 430M->422M(512M) 29.429ms
+[138.278s][info][gc] GC(23) Pause Young (G1 Evacuation Pause) 443M->436M(512M) 26.251ms
+[138.325s][info][gc] GC(24) Pause Young (G1 Evacuation Pause) 457M->449M(512M) 23.145ms
+[138.990s][info][gc] GC(19) Pause Remark 465M->465M(512M) 2.783ms
+[139.090s][info][gc] GC(19) Pause Cleanup 465M->387M(512M) 0.680ms
+[139.091s][info][gc] GC(19) Concurrent Cycle 1089.380ms
+[183.625s][info][gc] GC(25) Pause Young (G1 Evacuation Pause) 392M->382M(512M) 28.089ms
+[183.668s][info][gc] GC(26) Pause Mixed (G1 Evacuation Pause) 403M->388M(512M) 32.323ms
+[183.760s][info][gc] GC(27) Pause Initial Mark (G1 Evacuation Pause) 416M->406M(512M) 71.896ms
+[183.760s][info][gc] GC(28) Concurrent Cycle
+[183.894s][info][gc] GC(29) Pause Young (G1 Evacuation Pause) 428M->420M(512M) 83.024ms
+[183.981s][info][gc] GC(30) Pause Young (G1 Evacuation Pause) 441M->433M(512M) 78.592ms
+[184.053s][info][gc] GC(31) Pause Young (G1 Evacuation Pause) 454M->447M(512M) 61.408ms
+[184.165s][info][gc] GC(32) Pause Young (G1 Evacuation Pause) 468M->460M(512M) 103.244ms
+[184.248s][info][gc] GC(33) Pause Young (G1 Humongous Allocation) 472M->468M(512M) 51.663ms
+[185.340s][info][gc] GC(34) Pause Full (Allocation Failure) 468M->372M(512M) 1091.680ms
+[185.341s][info][gc] GC(28) Concurrent Cycle 1580.706ms
+[185.493s][info][gc] GC(35) Pause Young (G1 Evacuation Pause) 485M->472M(512M) 64.312ms
+[230.600s][info][gc] GC(36) Pause Initial Mark (G1 Evacuation Pause) 492M->481M(512M) 29.475ms
+[230.600s][info][gc] GC(37) Concurrent Cycle
+[230.668s][info][gc] GC(38) To-space exhausted
+[230.669s][info][gc] GC(38) Pause Young (G1 Evacuation Pause) 502M->509M(512M) 58.959ms
+[230.697s][info][gc] GC(39) To-space exhausted
+[230.698s][info][gc] GC(39) Pause Young (G1 Evacuation Pause) 510M->510M(512M) 28.992ms
+[230.705s][info][gc] GC(40) Pause Young (G1 Evacuation Pause) 510M->510M(512M) 6.752ms
+[231.487s][info][gc] GC(41) Pause Full (Allocation Failure) 510M->383M(512M) 779.599ms
+[231.487s][info][gc] GC(37) Concurrent Cycle 886.787ms
+[231.538s][info][gc] GC(42) Pause Young (G1 Evacuation Pause) 413M->400M(512M) 33.838ms
+[231.615s][info][gc] GC(43) Pause Initial Mark (G1 Evacuation Pause) 423M->415M(512M) 51.389ms
+[231.615s][info][gc] GC(44) Concurrent Cycle
+[231.668s][info][gc] GC(45) Pause Young (G1 Evacuation Pause) 436M->429M(512M) 38.581ms
+[231.721s][info][gc] GC(46) Pause Young (G1 Evacuation Pause) 450M->442M(512M) 42.840ms
+[231.778s][info][gc] GC(47) Pause Young (G1 Evacuation Pause) 463M->456M(512M) 47.859ms
+[231.824s][info][gc] GC(48) Pause Young (G1 Evacuation Pause) 477M->470M(512M) 36.761ms
+[231.882s][info][gc] GC(49) Pause Young (G1 Evacuation Pause) 491M->483M(512M) 49.059ms
+[233.076s][info][gc] GC(44) Pause Remark 493M->493M(512M) 4.436ms
+[233.234s][info][gc] GC(44) Pause Cleanup 493M->493M(512M) 0.803ms
+[233.246s][info][gc] GC(44) Concurrent Cycle 1630.435ms
+[277.318s][info][gc] GC(50) To-space exhausted
+[277.318s][info][gc] GC(50) Pause Young (G1 Evacuation Pause) 504M->505M(512M) 49.635ms
+[277.347s][info][gc] GC(51) To-space exhausted
+[277.347s][info][gc] GC(51) Pause Initial Mark (G1 Evacuation Pause) 509M->509M(512M) 27.373ms
+[277.347s][info][gc] GC(52) Concurrent Cycle
+[277.352s][info][gc] GC(53) Pause Young (G1 Evacuation Pause) 509M->509M(512M) 5.026ms
+[278.126s][info][gc] GC(54) Pause Full (Allocation Failure) 509M->431M(512M) 773.756ms
+[278.126s][info][gc] GC(52) Concurrent Cycle 779.083ms
+[278.186s][info][gc] GC(55) Pause Young (G1 Evacuation Pause) 456M->446M(512M) 32.966ms
+[278.233s][info][gc] GC(56) Pause Initial Mark (G1 Evacuation Pause) 467M->459M(512M) 38.660ms
+[278.233s][info][gc] GC(57) Concurrent Cycle
+[278.296s][info][gc] GC(58) Pause Young (G1 Evacuation Pause) 480M->473M(512M) 50.525ms
+[278.366s][info][gc] GC(59) To-space exhausted
+[278.367s][info][gc] GC(59) Pause Young (G1 Evacuation Pause) 494M->491M(512M) 59.468ms
+[278.458s][info][gc] GC(60) To-space exhausted
+[278.458s][info][gc] GC(60) Pause Young (G1 Evacuation Pause) 509M->509M(512M) 83.892ms
+[278.542s][info][gc] GC(61) Pause Young (G1 Evacuation Pause) 509M->509M(512M) 83.983ms
+[279.480s][info][gc] GC(62) Pause Full (Allocation Failure) 509M->495M(512M) 934.379ms
+[279.480s][info][gc] GC(57) Concurrent Cycle 1246.808ms
+[279.542s][info][gc] GC(63) To-space exhausted
+[279.542s][info][gc] GC(63) Pause Young (G1 Evacuation Pause) 510M->510M(512M) 51.722ms
+[279.558s][info][gc] GC(64) Pause Initial Mark (G1 Evacuation Pause) 510M->510M(512M) 16.218ms
+[279.558s][info][gc] GC(65) Concurrent Cycle
+[280.533s][info][gc] GC(66) Pause Full (Allocation Failure) 510M->503M(512M) 974.207ms
+[280.533s][info][gc] GC(65) Concurrent Cycle 975.122ms
+[280.600s][info][gc] GC(67) To-space exhausted
+[280.600s][info][gc] GC(67) Pause Young (G1 Evacuation Pause) 509M->509M(512M) 18.458ms
+[280.605s][info][gc] GC(68) Pause Initial Mark (G1 Evacuation Pause) 509M->509M(512M) 5.506ms
+[280.606s][info][gc] GC(69) Concurrent Cycle
+[281.490s][info][gc] GC(70) Pause Full (Allocation Failure) 509M->507M(512M) 883.148ms
+[281.490s][info][gc] GC(69) Concurrent Cycle 884.235ms
+[281.502s][info][gc] GC(71) To-space exhausted
+[281.502s][info][gc] GC(71) Pause Young (G1 Evacuation Pause) 509M->509M(512M) 9.273ms
+[281.511s][info][gc] GC(72) Pause Initial Mark (G1 Evacuation Pause) 509M->509M(512M) 7.401ms
+[281.512s][info][gc] GC(73) Concurrent Cycle
+[282.448s][info][gc] GC(74) Pause Full (Allocation Failure) 509M->508M(512M) 936.174ms
+[282.448s][info][gc] GC(73) Concurrent Cycle 936.707ms
+[282.464s][info][gc] GC(75) To-space exhausted
+[282.464s][info][gc] GC(75) Pause Young (G1 Evacuation Pause) 511M->511M(512M) 14.547ms
+[282.468s][info][gc] GC(76) Pause Initial Mark (G1 Evacuation Pause) 511M->511M(512M) 4.073ms
+[282.468s][info][gc] GC(77) Concurrent Cycle
+[283.558s][info][gc] GC(78) Pause Full (Allocation Failure) 511M->510M(512M) 1089.418ms
+[283.558s][info][gc] GC(77) Concurrent Cycle 1089.669ms
+[283.564s][info][gc] GC(79) To-space exhausted
+[283.565s][info][gc] GC(79) Pause Young (G1 Evacuation Pause) 511M->511M(512M) 6.678ms
+[283.569s][info][gc] GC(80) Pause Initial Mark (G1 Evacuation Pause) 511M->511M(512M) 3.515ms
+[283.569s][info][gc] GC(81) Concurrent Cycle
+[284.581s][info][gc] GC(82) Pause Full (Allocation Failure) 511M->510M(512M) 1011.597ms
+[284.581s][info][gc] GC(81) Concurrent Cycle 1011.762ms
+[284.586s][info][gc] GC(83) To-space exhausted
+[284.586s][info][gc] GC(83) Pause Young (G1 Evacuation Pause) 511M->511M(512M) 4.198ms
+[284.594s][info][gc] GC(84) Pause Initial Mark (G1 Evacuation Pause) 511M->511M(512M) 7.595ms
+[284.594s][info][gc] GC(85) Concurrent Cycle
+[285.564s][info][gc] GC(86) Pause Full (Allocation Failure) 511M->511M(512M) 969.753ms
+[286.548s][info][gc] GC(87) Pause Full (Allocation Failure) 511M->511M(512M) 984.369ms
+[286.548s][info][gc] GC(85) Concurrent Cycle 1954.726ms
+[299.074s][info][gc] GC(88) Pause Young (G1 Evacuation Pause) 511M->511M(512M) 2.611ms
+[299.096s][info][gc] GC(89) Pause Initial Mark (G1 Evacuation Pause) 511M->511M(512M) 3.548ms
+[299.096s][info][gc] GC(90) Concurrent Cycle
+[299.118s][info][gc] GC(91) Pause Full (Allocation Failure) 511M->2M(512M) 22.412ms
+[299.119s][info][gc] GC(90) Concurrent Cycle 22.698ms
