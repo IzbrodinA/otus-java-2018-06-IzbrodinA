@@ -17,6 +17,10 @@ public class Atm {
         this.serialNumber = serialNumber;
     }
 
+    public int getCountCell() {
+        return countCell;
+    }
+
     public Atm(int countCell) {
         this.countCell = countCell;
         this.serialNumber = "ATM";
