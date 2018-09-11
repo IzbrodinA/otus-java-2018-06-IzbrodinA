@@ -27,7 +27,8 @@ public class AtmTest {
     @Test
     public void addCell() {
         atm.addCell(new MoneyCell(Banknote.BANKNOTE5000, 2000));
-        assertNotNull("Cell add in ATM",atm);
+        int expected = 6;
+        assertEquals(6,atm.getCountCell() );
     }
 
     @Test(expected = InvalidAddMoneyCell.class)
@@ -39,23 +40,25 @@ public class AtmTest {
 
     @Test
     public void addOneBanknote() {
+        long sumBeforeAddMoney  = atm.getAvailableMoney();
         try {
             atm.addBanknote(Banknote.BANKNOTE5000, 100);
         } catch (InvalidAddBanknote invalidAddBanknote) {
             invalidAddBanknote.printStackTrace();
         }
-        assertNotNull("One banknote add in ATM",atm);
+        assertNotEquals(sumBeforeAddMoney, atm.getAvailableMoney());
     }
 
     @Test
     public void andTwoBanknote() {
+        long sumBeforeAddMoney  = atm.getAvailableMoney();
         try {
             atm.addBanknote(Banknote.BANKNOTE5000, 100);
             atm.addBanknote(Banknote.BANKNOTE5000, 300);
         } catch (InvalidAddBanknote invalidAddBanknote) {
             invalidAddBanknote.printStackTrace();
         }
-        assertNotNull("Two banknote add in ATM",atm);
+        assertEquals(sumBeforeAddMoney, atm.getAvailableMoney() - 5000 * 400);
     }
 
     @Test
@@ -64,8 +67,8 @@ public class AtmTest {
             atm.addBanknote(Banknote.BANKNOTE100, 1500);
         } catch (InvalidAddBanknote invalidAddBanknote) {
             invalidAddBanknote.printStackTrace();
-            assertNotNull("Banknote add in ATM and reserve cell",atm);
         }
+        assertEquals("Expected reserve cell",6,atm.getCountCell() );
     }
 
     @Test(expected = InvalidAddBanknote.class)
