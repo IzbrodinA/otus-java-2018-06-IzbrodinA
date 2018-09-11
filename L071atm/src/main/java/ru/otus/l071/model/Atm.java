@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Atm {
 
-    private int countCell;
+    final private int countCell;
     private List<MoneyCell> moneyCell = new ArrayList<>();
     private String serialNumber;
 
@@ -87,7 +87,7 @@ public class Atm {
         return banknotes;
     }
 
-    public Long showAvailableMoney(){
+    public long getAvailableMoney(){
         long sum =0;
         for (MoneyCell cell: moneyCell) {
             sum += cell.getBanknote().getValue() * cell.getCount();
