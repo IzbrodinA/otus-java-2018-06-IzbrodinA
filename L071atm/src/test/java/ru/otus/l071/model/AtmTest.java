@@ -27,12 +27,14 @@ public class AtmTest {
     @Test
     public void addCell() {
         atm.addCell(new MoneyCell(Banknote.BANKNOTE5000, 2000));
+        assertNotNull("Cell add in ATM",atm);
     }
 
     @Test(expected = InvalidAddMoneyCell.class)
     public void addMuchCell() {
         atm.addCell(new MoneyCell(Banknote.BANKNOTE5000, 2000));
         atm.addCell(new MoneyCell(Banknote.BANKNOTE5000, 2000));
+        assertNotNull("Expected exception",atm);
     }
 
     @Test
@@ -42,6 +44,7 @@ public class AtmTest {
         } catch (InvalidAddBanknote invalidAddBanknote) {
             invalidAddBanknote.printStackTrace();
         }
+        assertNotNull("One banknote add in ATM",atm);
     }
 
     @Test
@@ -52,6 +55,7 @@ public class AtmTest {
         } catch (InvalidAddBanknote invalidAddBanknote) {
             invalidAddBanknote.printStackTrace();
         }
+        assertNotNull("Two banknote add in ATM",atm);
     }
 
     @Test
@@ -60,6 +64,7 @@ public class AtmTest {
             atm.addBanknote(Banknote.BANKNOTE100, 1500);
         } catch (InvalidAddBanknote invalidAddBanknote) {
             invalidAddBanknote.printStackTrace();
+            assertNotNull("Banknote add in ATM and reserve cell",atm);
         }
     }
 
@@ -67,11 +72,12 @@ public class AtmTest {
     public void addBanknote100AndBanknote1000AndReserveOneMoneySell() throws InvalidAddBanknote {
         atm.addBanknote(Banknote.BANKNOTE100, 1500);
         atm.addBanknote(Banknote.BANKNOTE1000, 1500);
+        assertNotNull("Expected exception",atm);
     }
 
     @Test
     public void checkSum() {
-        long result = atm.showAvailableMoney();
+        long result = atm.getAvailableMoney();
         long expected = 5000 * 500 + 100 * 3000 + 500 * 2000 + 1000 * 3000 + 2000 * 100;
         assertEquals("check showSum:", expected, result);
     }
