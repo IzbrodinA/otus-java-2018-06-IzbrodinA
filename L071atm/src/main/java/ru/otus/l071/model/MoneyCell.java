@@ -7,8 +7,14 @@ public class MoneyCell  {
 
     public static final int MAX_SIZE_CELL = 3000;
     private  int count;
-    private int size;
-    private Banknote banknote;
+    final private int size;
+    final private Banknote banknote;
+
+    public MoneyCell(Banknote banknote, int count, int size) {
+        this.banknote = banknote;
+        this.count = count;
+        this.size = size;
+    }
 
     public MoneyCell(Banknote banknote, int count) {
         this.banknote = banknote;
