@@ -4,31 +4,23 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 
 public class PrintReflector implements Visitor {
-    private JsonObjectBuilder jsonObjectBuilder;
+    private JsonValue jsonValue;
 
 
-    public JsonObjectBuilder visit(final String name, final Object object,  JsonObjectBuilder jsonObjectBuilder) {
-        Method method = getMethod(object.getClass(), name.getClass());
-            this.jsonObjectBuilder = jsonObjectBuilder;
+    public JsonValue visit(final Object object,  final String name) {
+        Method method = getMethod(object.getClass(), String.class);
+
         try {
-            jsonObjectBuilder = (JsonObjectBuilder) method.invoke(this,  object, name);
+            jsonValue = (JsonValue) method.invoke(this,  object, name);
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
-        //        if (object instanceof Visitable) {
-//            callAccept((Visitable) object);
-//        }
 
-        return jsonObjectBuilder;
+        return jsonValue;
     }
-
-
-    //Visitable-controlled navigation:
-//    private void callAccept(Visitable visitable) {
-//        visitable.accept(this);
-//    }
 
     private Method getMethod(Class c, Class strClass) {
         Class newc = c;
@@ -43,21 +35,6 @@ public class PrintReflector implements Visitor {
                 newc = newc.getSuperclass();
             }
         }
-//        // Try the interfaces.  If necessary, you
-//        // can sort them first to define 'visitable' interface wins
-//        // in case an object implements more than one.
-//        if (newc == Object.class) {
-//            Class[] interfaces = c.getInterfaces();
-//            for (final Class anInterface : interfaces) {
-//                String method = anInterface.getName();
-//                method = "visit" + method.substring(method.lastIndexOf('.') + 1);
-//                try {
-//                    m = getClass().getMethod(method, anInterface);
-//                } catch (NoSuchMethodException ignored) {
-//
-//                }
-//            }
-//        }
         if (m == null) {
             try {
                 m = this.getClass().getMethod("visitObject", Object.class, strClass);
@@ -69,41 +46,52 @@ public class PrintReflector implements Visitor {
     }
 
 
-    public JsonObjectBuilder visitString(final String object, final String name ){
-
-        return jsonObjectBuilder.add(name, object);
+    public JsonValue visitString(final String object, final String name ){
+        if (name == null){
+            return Json.createArrayBuilder().add(object).build();
+        }
+        return Json.createObjectBuilder().add(name, object).build();
     }
 
-    public JsonObjectBuilder visitInteger( final Integer object, final  String name){
-
-        return jsonObjectBuilder.add(name, object);
+    public JsonValue visitInteger( final Integer object, final  String name){
+        if (name == null){
+            return Json.createArrayBuilder().add(object).build();
+        }
+        return Json.createObjectBuilder().add(name, object).build();
     }
 
-    public JsonObjectBuilder visitCharacter(final Character object, final  String name){
-        jsonObjectBuilder.add(name, object.toString());
-        return jsonObjectBuilder;
+    public JsonValue visitCharacter(final Character object, final  String name){
+        if (name == null){
+            return Json.createArrayBuilder().add(object).build();
+        }
+        return Json.createObjectBuilder().add(name, object).build();
     }
 
-    public JsonObjectBuilder visitLong(final Long object, final  String name){
-        jsonObjectBuilder.add(name, object);
-        return jsonObjectBuilder;
+    public JsonValue visitLong(final Long object, final  String name){
+        if (name == null){
+            return Json.createArrayBuilder().add(object).build();
+        }
+        return Json.createObjectBuilder().add(name, object).build();
     }
 
-    public JsonObjectBuilder visitDouble(final Double object, final  String name){
-        jsonObjectBuilder.add(name, object);
-        return jsonObjectBuilder;
+    public JsonValue visitDouble(final Double object, final  String name){
+        if (name == null){
+            return Json.createArrayBuilder().add(object).build();
+        }
+        return Json.createObjectBuilder().add(name, object).build();
     }
 
-    public JsonObjectBuilder visitBoolean(final Boolean object, final  String name){
-        jsonObjectBuilder.add(name, object);
-        return jsonObjectBuilder;
+    public JsonValue visitBoolean(final Boolean object, final  String name){
+        if (name == null){
+            return Json.createArrayBuilder().add(object).build();
+        }
+        return Json.createObjectBuilder().add(name, object).build();
     }
 
-    public JsonObjectBuilder visitObject(final Object object, final  String name) {
+    public JsonValue visitObject(final Object object, final  String name) {
 
-//        return this.visit(name, object, jsonObjectBuilder);
-        System.out.println("visitObject");
-        return jsonObjectBuilder;
+
+        return null;
     }
 
 
