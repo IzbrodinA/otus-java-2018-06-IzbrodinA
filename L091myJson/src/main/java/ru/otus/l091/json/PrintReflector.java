@@ -2,24 +2,42 @@ package ru.otus.l091.json;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
 
-public class PrintReflector implements Visitor {
-    private JsonValue jsonValue;
+public class PrintReflector {
+    private JsonObjectBuilder jsonObjectBuilder;
+    private JsonArrayBuilder jsonArrayBuilder;
 
 
-    public JsonValue visit(final Object object,  final String name) {
+    public JsonObjectBuilder visit(final Object object,  final String name, JsonObjectBuilder jsonObjectBuilder) {
+        if (object == null){
+            return jsonObjectBuilder.addNull(name);
+        }
         Method method = getMethod(object.getClass(), String.class);
+        this.jsonObjectBuilder = jsonObjectBuilder;
 
         try {
-            jsonValue = (JsonValue) method.invoke(this,  object, name);
+            jsonObjectBuilder = (JsonObjectBuilder) method.invoke(this,  object, name);
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
 
-        return jsonValue;
+        return jsonObjectBuilder;
+    }
+
+    public JsonArrayBuilder visit(final Object object,  final String name, JsonArrayBuilder jsonArrayBuilder) {
+
+        Method method = getMethod(object.getClass(), String.class);
+        this.jsonArrayBuilder = jsonArrayBuilder;
+
+        try {
+             method.invoke(this,  object, name);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        return jsonArrayBuilder;
     }
 
     private Method getMethod(Class c, Class strClass) {
@@ -46,52 +64,57 @@ public class PrintReflector implements Visitor {
     }
 
 
-    public JsonValue visitString(final String object, final String name ){
-        if (name == null){
-            return Json.createArrayBuilder().add(object).build();
+    public void visitString(final String object, final String name ) {
+        if (name == null) {
+            jsonArrayBuilder.add(object);
+        } else {
+            jsonObjectBuilder.add(name, object);
         }
-        return Json.createObjectBuilder().add(name, object).build();
     }
 
-    public JsonValue visitInteger( final Integer object, final  String name){
-        if (name == null){
-            return Json.createArrayBuilder().add(object).build();
+    public void visitInteger( final Integer object, final  String name) {
+        if (name == null) {
+            jsonArrayBuilder.add(object);
+        } else {
+            jsonObjectBuilder.add(name, object);
         }
-        return Json.createObjectBuilder().add(name, object).build();
     }
 
-    public JsonValue visitCharacter(final Character object, final  String name){
-        if (name == null){
-            return Json.createArrayBuilder().add(object).build();
+    public void visitCharacter(final Character object, final  String name) {
+        if (name == null) {
+            jsonArrayBuilder.add(object);
+        } else {
+            jsonObjectBuilder.add(name, object);
         }
-        return Json.createObjectBuilder().add(name, object).build();
     }
 
-    public JsonValue visitLong(final Long object, final  String name){
-        if (name == null){
-            return Json.createArrayBuilder().add(object).build();
+    public void visitLong(final Long object, final  String name) {
+        if (name == null) {
+            jsonArrayBuilder.add(object);
+        } else {
+            jsonObjectBuilder.add(name, object);
         }
-        return Json.createObjectBuilder().add(name, object).build();
     }
 
-    public JsonValue visitDouble(final Double object, final  String name){
-        if (name == null){
-            return Json.createArrayBuilder().add(object).build();
+    public void visitDouble(final Double object, final  String name) {
+        if (name == null) {
+            jsonArrayBuilder.add(object);
+        } else {
+            jsonObjectBuilder.add(name, object);
         }
-        return Json.createObjectBuilder().add(name, object).build();
+
     }
 
-    public JsonValue visitBoolean(final Boolean object, final  String name){
-        if (name == null){
-            return Json.createArrayBuilder().add(object).build();
+    public void visitBoolean(final Boolean object, final  String name) {
+        if (name == null) {
+            jsonArrayBuilder.add(object);
+        } else {
+            jsonObjectBuilder.add(name, object);
         }
-        return Json.createObjectBuilder().add(name, object).build();
     }
 
-    public JsonValue visitObject(final Object object, final  String name) {
+    public void visitObject(final Object object, final  String name) {
 
-
-        return null;
     }
 
 

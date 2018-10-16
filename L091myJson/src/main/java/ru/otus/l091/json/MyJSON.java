@@ -10,6 +10,7 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
 import javax.json.JsonValue;
 import javax.json.JsonWriter;
@@ -19,22 +20,30 @@ public class MyJSON {
     private myType typeObj;
     private myType typeJSON;
     private PrintReflector printReflector = new PrintReflector();
+    private String IF_FIRST_OBJECT_IS_NOT_OBJECT = "IF_FIRST_OBJECT_IS_NOT_OBJECT";
 
     public String toJson(Object obj) {
-        if (obj == null) {
-            return writeToString(Json.createObjectBuilder().addNull("null").build());
+        defineType(obj);
+        if (typeObj == myType.NULL) {
+            return "null";
         }
-        return writeToString((JsonStructure) buildTree(null, obj, null));
+        if (typeObj == myType.PRIMITIVE){
+            if (String.class.isAssignableFrom(obj.getClass()) || Character.class.isAssignableFrom(obj.getClass())){
+                obj = "\""+obj + "\"";
+            }
+            return obj.toString();
+        }
+        if (typeObj == myType.ARRAY) {
+            return writeToString(buildTree(null, obj, null).build().getJsonArray(IF_FIRST_OBJECT_IS_NOT_OBJECT));
+        }
+
+        return writeToString(buildTree(null, obj, null).build());
     }
 
-    private JsonValue buildTree(JsonValue tree, final Object obj, final String key) {
+    private JsonObjectBuilder buildTree(JsonObjectBuilder tree, final Object obj, final String key) {
         defineType(obj);
-        defineTypeJSON(tree);
         if (typeObj == myType.NULL || typeObj == myType.PRIMITIVE) {
-            if (typeJSON == myType.NULL) {
-                tree = printReflector.visit(obj, key);
-            } else
-            tree = joinJSONValue(tree, obj, key);
+                tree = printReflector.visit(obj, key, tree);
         } else if (typeObj == myType.ARRAY) {
             tree = joinJSONArray(tree, obj, key);
         } else if (typeObj == myType.OBJECT) {
@@ -59,46 +68,52 @@ public class MyJSON {
         }
     }
 
-    private void defineTypeJSON(final JsonValue tree) {
-        if (tree == null) {
-            typeJSON = myType.NULL;
-        } else {
-           JsonValue.ValueType treeType = tree.getValueType();
-            if (treeType == JsonValue.ValueType.ARRAY) {
-                typeJSON = myType.ARRAY;
-            } else if (treeType == JsonValue.ValueType.OBJECT) {
-                typeJSON = myType.OBJECT;
+    private JsonObjectBuilder joinJSONArray(JsonObjectBuilder json, final Object obj, final String key) {
+        JsonArrayBuilder array = Json.createArrayBuilder();
+        boolean arrayIsGetPrimitive = false;
+        //If Obj is Collection
+        if (Collection.class.isAssignableFrom(obj.getClass())){
+
+            if ( !((Collection) obj).isEmpty()){
+                arrayIsGetPrimitive = isPrimitive( ((Collection) obj).iterator().next().getClass()) ;
+            }
+
+            for (Object elementCollection : (Collection) obj) {
+                    if (arrayIsGetPrimitive) {
+                        array = printReflector.visit(elementCollection, null, array);
+                    } else {
+                        array.add(buildTree(json, elementCollection, null));
+                    }
+            }
+        }else {
+            //If Obj is Array
+            int length = Array.getLength(obj);
+            if (length != 0) {
+                Class<?> elementArrayClass = Array.get(obj, 0).getClass();
+                arrayIsGetPrimitive = isPrimitive(elementArrayClass);
+            }
+            for (int i = 0; i < length; i++) {
+                if (arrayIsGetPrimitive) {
+                    array = printReflector.visit(Array.get(obj, i), null, array);
+                } else {
+                    array.add(buildTree(json, Array.get(obj, i), null));
+                }
             }
         }
-    }
-
-    private JsonValue joinJSONValue(JsonValue json, final Object obj, final String key) {
-        if (typeJSON == myType.NULL) {
-                json = (JsonValue) obj;
-        } else if (typeJSON == myType.ARRAY) {
-            JsonArrayBuilder jab = Json.createArrayBuilder().add(json);
-            json = jab.add(printReflector.visit(obj, null)).build();
-//          ((JsonArray) json).add(printReflector.visit(obj, null));
-        } else if (typeJSON == myType.OBJECT) {
-             ((JsonObject) json).put(key, printReflector.visit(obj,null));
-        }
-        return json;
-    }
-
-    private JsonValue joinJSONArray(JsonValue json, final Object obj, final String key) {
-        JsonValue array = Json.createArrayBuilder().build();
-        json = joinJSONValue(json, array, key);
-        int length = Array.getLength(obj);
-        for (int i = 0; i < length; i++) {
-            buildTree(array, Array.get(obj, i), null);
+        if (json == null) {
+            json = Json.createObjectBuilder().add(IF_FIRST_OBJECT_IS_NOT_OBJECT, array);
+        } else {
+            json.add(key, array);
         }
         return json;
     }
 
 
-    private JsonValue joinJSONObject(JsonValue json, final Object obj, final String key) {
-        JsonValue jsonObject = Json.createObjectBuilder().build();
-        json = joinJSONValue(json, jsonObject, key);
+    private JsonObjectBuilder joinJSONObject(JsonObjectBuilder json, final Object obj, final String key) {
+        JsonObjectBuilder jsonObject = Json.createObjectBuilder();
+        if (json == null) {
+            json = jsonObject;
+        }
         Field fields[] = obj.getClass().getDeclaredFields();
         Field field;
         for (int i = 0; i < fields.length; i++) {
@@ -125,7 +140,7 @@ public class MyJSON {
         return stWriter.toString();
     }
 
-        private boolean isPrimitive(Class<?> fieldType) {
+    private boolean isPrimitive(Class<?> fieldType) {
         return Arrays.stream(PRIMITIVES)
                 .anyMatch(primitive -> primitive.isAssignableFrom(fieldType));
     }
@@ -136,6 +151,7 @@ public class MyJSON {
             Byte.class,
             Short.class,
             Integer.class,
+            Character.class,
             Long.class,
             Float.class,
             Double.class
