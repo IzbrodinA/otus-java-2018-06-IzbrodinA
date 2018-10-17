@@ -82,7 +82,7 @@ public class MyJSON {
                     if (arrayIsGetPrimitive) {
                         array = printReflector.visit(elementCollection, null, array);
                     } else {
-                        array.add(buildTree(json, elementCollection, null));
+                        array.add(buildTree(null, elementCollection, null));
                     }
             }
         }else {
@@ -96,7 +96,7 @@ public class MyJSON {
                 if (arrayIsGetPrimitive) {
                     array = printReflector.visit(Array.get(obj, i), null, array);
                 } else {
-                    array.add(buildTree(json, Array.get(obj, i), null));
+                    array.add(buildTree(null, Array.get(obj, i), null));
                 }
             }
         }
@@ -113,6 +113,8 @@ public class MyJSON {
         JsonObjectBuilder jsonObject = Json.createObjectBuilder();
         if (json == null) {
             json = jsonObject;
+        }else {
+            json.add(key,jsonObject);
         }
         Field fields[] = obj.getClass().getDeclaredFields();
         Field field;
@@ -125,7 +127,7 @@ public class MyJSON {
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
-            buildTree(jsonObject, value, field.getName());
+            jsonObject = buildTree(jsonObject, value, field.getName());
         }
         return json;
     }
