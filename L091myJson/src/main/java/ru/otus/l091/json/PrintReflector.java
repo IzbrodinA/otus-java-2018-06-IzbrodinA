@@ -18,7 +18,7 @@ public class PrintReflector {
         this.jsonObjectBuilder = jsonObjectBuilder;
 
         try {
-            jsonObjectBuilder = (JsonObjectBuilder) method.invoke(this,  object, name);
+             method.invoke(this,  object, name);
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -114,6 +114,7 @@ public class PrintReflector {
     }
 
     public void visitObject(final Object object, final  String name) {
+
 
     }
 

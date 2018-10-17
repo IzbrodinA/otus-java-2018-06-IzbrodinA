@@ -111,9 +111,7 @@ public class MyJSON {
 
     private JsonObjectBuilder joinJSONObject(JsonObjectBuilder json, final Object obj, final String key) {
         JsonObjectBuilder jsonObject = Json.createObjectBuilder();
-        if (json == null) {
-            json = jsonObject;
-        }
+
         Field fields[] = obj.getClass().getDeclaredFields();
         Field field;
         for (int i = 0; i < fields.length; i++) {
@@ -125,7 +123,16 @@ public class MyJSON {
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
-            buildTree(jsonObject, value, field.getName());
+           jsonObject = buildTree(jsonObject, value, field.getName());
+        }
+        if (json == null) {
+            json = jsonObject;
+        }else {
+            if (key==null){
+                json.add("null",jsonObject);
+            }else {
+                json.add(key, jsonObject);
+            }
         }
         return json;
     }

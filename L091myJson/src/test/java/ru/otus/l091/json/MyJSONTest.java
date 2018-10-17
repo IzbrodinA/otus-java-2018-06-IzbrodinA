@@ -151,28 +151,33 @@ public class MyJSONTest {
     @Test
     public void checkBagObject() {
         BagObject value = new BagObject();
+
         double doubles[] = {1.0, 10.10, 40.40};
         String strings[] = {"test1", "test3", "test4"};
+
         List<SimpleObject> list = new ArrayList<>();
         SimpleObject simpleObject1 = new SimpleObject(99,"bal1");
         SimpleObject simpleObject2 = new SimpleObject(22,"fswe");
         list.add(new SimpleObject(1, "st1"));
         list.add(simpleObject1);
         list.add(simpleObject2);
+
         Set<String> set = new HashSet<>();
         set.add("set1");
         set.add("set2");
         set.add("set3");
-        value.setDoubles(doubles);
-        value.setStrings(strings);
+
         Queue<String> queue = new ArrayDeque<>();
         queue.add("str1");
         queue.add("str2");
         queue.add("str3");
 
+        value.setDoubles(doubles);
+        value.setStrings(strings);
         value.setList(list);
         value.setQueue(queue);
         value.setSet(set);
+
 
         String gsonString = gson.toJson(value);
         String myJSONString = myJSON.toJson(value);
