@@ -14,23 +14,23 @@ import javax.json.JsonWriter;
 
 
 public class MyJSON {
-    private MyType typeObj;
+    private MyTypes typeObj;
 
     private PrintReflector printReflector = new PrintReflector();
     private String IF_FIRST_OBJECT_IS_NOT_OBJECT = "IF_FIRST_OBJECT_IS_NOT_OBJECT";
 
     public String toJson(Object obj) {
         defineType(obj);
-        if (typeObj == MyType.NULL) {
+        if (typeObj == MyTypes.NULL) {
             return "null";
         }
-        if (typeObj == MyType.PRIMITIVE){
+        if (typeObj == MyTypes.PRIMITIVE){
             if (String.class.isAssignableFrom(obj.getClass()) || Character.class.isAssignableFrom(obj.getClass())){
                 obj = "\""+obj + "\"";
             }
             return obj.toString();
         }
-        if (typeObj == MyType.ARRAY) {
+        if (typeObj == MyTypes.ARRAY) {
             return writeToString(buildTree(null, obj, null).build().getJsonArray(IF_FIRST_OBJECT_IS_NOT_OBJECT));
         }
 
@@ -39,11 +39,11 @@ public class MyJSON {
 
     private JsonObjectBuilder buildTree(JsonObjectBuilder tree, final Object obj, final String key) {
         defineType(obj);
-        if (typeObj == MyType.NULL || typeObj == MyType.PRIMITIVE) {
+        if (typeObj == MyTypes.NULL || typeObj == MyTypes.PRIMITIVE) {
                 tree = printReflector.visit(obj, key, tree);
-        } else if (typeObj == MyType.ARRAY) {
+        } else if (typeObj == MyTypes.ARRAY) {
             tree = joinJSONArray(tree, obj, key);
-        } else if (typeObj == MyType.OBJECT) {
+        } else if (typeObj == MyTypes.OBJECT) {
             tree = joinJSONObject(tree, obj, key);
         }
         return tree;
@@ -52,15 +52,15 @@ public class MyJSON {
 
     private void defineType(final Object obj) {
         if (obj == null) {
-            typeObj = MyType.NULL;
+            typeObj = MyTypes.NULL;
         } else {
             Class<?> objClass = obj.getClass();
             if (isPrimitive(objClass)) {
-                typeObj = MyType.PRIMITIVE;
+                typeObj = MyTypes.PRIMITIVE;
             } else if (objClass.isArray() || Collection.class.isAssignableFrom(objClass)) {
-                typeObj = MyType.ARRAY;
+                typeObj = MyTypes.ARRAY;
             } else {
-                typeObj = MyType.OBJECT;
+                typeObj = MyTypes.OBJECT;
             }
         }
     }
