@@ -7,33 +7,30 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
-import javax.json.JsonValue;
 import javax.json.JsonWriter;
 
 
 public class MyJSON {
-    private myType typeObj;
-    private myType typeJSON;
+    private MyType typeObj;
+
     private PrintReflector printReflector = new PrintReflector();
     private String IF_FIRST_OBJECT_IS_NOT_OBJECT = "IF_FIRST_OBJECT_IS_NOT_OBJECT";
 
     public String toJson(Object obj) {
         defineType(obj);
-        if (typeObj == myType.NULL) {
+        if (typeObj == MyType.NULL) {
             return "null";
         }
-        if (typeObj == myType.PRIMITIVE){
+        if (typeObj == MyType.PRIMITIVE){
             if (String.class.isAssignableFrom(obj.getClass()) || Character.class.isAssignableFrom(obj.getClass())){
                 obj = "\""+obj + "\"";
             }
             return obj.toString();
         }
-        if (typeObj == myType.ARRAY) {
+        if (typeObj == MyType.ARRAY) {
             return writeToString(buildTree(null, obj, null).build().getJsonArray(IF_FIRST_OBJECT_IS_NOT_OBJECT));
         }
 
@@ -42,11 +39,11 @@ public class MyJSON {
 
     private JsonObjectBuilder buildTree(JsonObjectBuilder tree, final Object obj, final String key) {
         defineType(obj);
-        if (typeObj == myType.NULL || typeObj == myType.PRIMITIVE) {
+        if (typeObj == MyType.NULL || typeObj == MyType.PRIMITIVE) {
                 tree = printReflector.visit(obj, key, tree);
-        } else if (typeObj == myType.ARRAY) {
+        } else if (typeObj == MyType.ARRAY) {
             tree = joinJSONArray(tree, obj, key);
-        } else if (typeObj == myType.OBJECT) {
+        } else if (typeObj == MyType.OBJECT) {
             tree = joinJSONObject(tree, obj, key);
         }
         return tree;
@@ -55,15 +52,15 @@ public class MyJSON {
 
     private void defineType(final Object obj) {
         if (obj == null) {
-            typeObj = myType.NULL;
+            typeObj = MyType.NULL;
         } else {
             Class<?> objClass = obj.getClass();
             if (isPrimitive(objClass)) {
-                typeObj = myType.PRIMITIVE;
+                typeObj = MyType.PRIMITIVE;
             } else if (objClass.isArray() || Collection.class.isAssignableFrom(objClass)) {
-                typeObj = myType.ARRAY;
+                typeObj = MyType.ARRAY;
             } else {
-                typeObj = myType.OBJECT;
+                typeObj = MyType.OBJECT;
             }
         }
     }
