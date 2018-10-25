@@ -1,9 +1,9 @@
 package ru.otus.l101.orm.base;
 
 import java.sql.SQLException;
-import java.util.List;
+
 import ru.otus.l101.orm.DataSet;
-import ru.otus.l101.orm.UserDataSet;
+
 
 public interface DBService extends AutoCloseable {
 
@@ -12,9 +12,12 @@ public interface DBService extends AutoCloseable {
 
     void prepareTables() throws SQLException;
 
-    void addUser(UserDataSet user);
+    public <T extends DataSet> void save (T user)throws SQLException;
 
-    UserDataSet getUserById(long id);
+    public <T extends DataSet> T load(long id , Class<T> clazz)throws SQLException;
+
+
+    public void deleteTables() throws SQLException;
 
 
 }

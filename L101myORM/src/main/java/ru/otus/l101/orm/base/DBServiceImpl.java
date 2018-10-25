@@ -9,15 +9,30 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import ru.otus.l101.orm.DataSet;
+import ru.otus.l101.orm.PrintQueryVisitor;
 import ru.otus.l101.orm.UserDataSet;
 import ru.otus.l101.orm.executor.Executor;
 
 import static ru.otus.l101.orm.base.ConnectionHelper.getConnection;
 
+/*
+
+CREATE USER 'izbro'@'localhost' IDENTIFIED BY 'Izbrodin123/*';
+GRANT ALL PRIVILEGES ON * . * TO 'izbro'@'localhost';
+create database db_homeL101;
+SET GLOBAL time_zone = '+3:00';
+use db_homeL101;
+CREATE TABLE homeworkL10 (id bigint(20) NOT NUll auto_increment,
+ name VARCHAR(255), age int(3), PRIMARY KEY (id));
+
+*/
+
 public class DBServiceImpl implements DBService {
 
     private static final String CREATE_TABLE_USER = "create table if not exists  homeworkL10 (id bigint(20) NOT NUll" +
                                                     " auto_increment, name VARCHAR(255), age int(3), PRIMARY KEY (id));";
+
+    private static final String DELETE_USER = "drop table homeworkL10";
 
 
     private final Connection connection;
@@ -26,7 +41,13 @@ public class DBServiceImpl implements DBService {
     public DBServiceImpl() {
         connection = getConnection();
         exec = new Executor(getConnection());
-        prepareTables();
+
+        try {
+            prepareTables();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
 
     }
@@ -50,18 +71,28 @@ public class DBServiceImpl implements DBService {
 
     }
 
+
+    @Override
     public <T extends DataSet> void save (T user) throws SQLException {
-        String insert = null;
+        PrintQueryVisitor pqv = new PrintQueryVisitor();
+        String insert = pqv.visit(user);
         exec.execUpdate(insert);
     }
-
+    @Override
     public <T extends DataSet> T load(long id , Class<T> clazz) throws SQLException {
-        String select= "kk";
-        return (T) exec.execQuery(String.format(select, id), result -> {
-            result.next();
-            return result.getString("name");
-        });
+//        String select= "kk";
+//        return (T) exec.execQuery(String.format(select, id), result -> {
+//            result.next();
+//            return result.getString("name");
+//        });
+        return null;
     }
+
+    @Override
+    public void deleteTables() throws SQLException {
+            exec.execUpdate(DELETE_USER);
+        }
+
 
 
     @Override
