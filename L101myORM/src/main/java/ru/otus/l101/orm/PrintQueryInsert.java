@@ -6,22 +6,16 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PrintQueryVisitor <T> {
-    Map<String,String> baseStringValue = new HashMap<>();
-    Map<String,Number> baseNumberValue = new HashMap<>();
+public class PrintQueryInsert {
+    Map<String, String> baseStringValue = new HashMap<>();
+    Map<String, Number> baseNumberValue = new HashMap<>();
 
 
     public String visit(final Object object) {
-        if (object == null){
+        if (object == null) {
             return null;
         }
-        String query = getTree(object);
 
-
-        return query;
-    }
-
-    private String getTree(final Object object) {
         Method method;
         Field fields[] = object.getClass().getDeclaredFields();
         Field field;
@@ -34,43 +28,42 @@ public class PrintQueryVisitor <T> {
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
-          method = getMethod(value.getClass(), String.class);
+            method = getMethod(value.getClass(), String.class);
             try {
-                method.invoke(this, value, field.getName() );
+                method.invoke(this, value, field.getName());
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }
+
         return printQuery();
-
-
-
     }
 
+
+
     private String printQuery() {
-        StringBuilder insert =  new StringBuilder("INSERT INTO homeworkL10 SET ");
-        for (Map.Entry<String,String> stringEntry : baseStringValue.entrySet()) {
+        StringBuilder insert = new StringBuilder("INSERT INTO homeworkL10 SET ");
+
+        for (Map.Entry<String, String> stringEntry : baseStringValue.entrySet()) {
             insert.append(stringEntry.getKey()).append("='").append(stringEntry.getValue()).append("', ");
         }
-        for (Map.Entry<String,Number> numberEntry : baseNumberValue.entrySet()) {
+        for (Map.Entry<String, Number> numberEntry : baseNumberValue.entrySet()) {
             insert.append(numberEntry.getKey()).append("=").append(numberEntry.getValue()).append(", ");
         }
         int length = insert.length();
-        insert.replace(length - 2 , length,";");
+        insert.replace(length - 2, length, ";");
         return insert.toString();
     }
 
 
     private Method getMethod(Class c, Class stringClass) {
-
-
         Method m = null;
         // Try the superclasses
         while (m == null && c != Object.class) {
             String method = c.getName();
             method = "visit" + method.substring(method.lastIndexOf('.') + 1);
             try {
-                m = this.getClass().getMethod(method, c,stringClass);
+                m = this.getClass().getMethod(method, c, stringClass);
             } catch (NoSuchMethodException e) {
                 c = c.getSuperclass();
             }
@@ -87,30 +80,30 @@ public class PrintQueryVisitor <T> {
 
 
     public void visitString(final String object, String name) {
-        baseStringValue.put(name,object);
+        baseStringValue.put(name, object);
     }
 
-    public void visitInteger( final Integer object, String name) {
-        baseNumberValue.put(name,object);
+    public void visitInteger(final Integer object, String name) {
+        baseNumberValue.put(name, object);
     }
 
     public void visitCharacter(final Character object, String name) {
-        baseStringValue.put(name,object.toString());
+        baseStringValue.put(name, object.toString());
     }
 
     public void visitLong(final Long object, String name) {
-        baseNumberValue.put(name,object);
+        baseNumberValue.put(name, object);
     }
 
     public void visitDouble(final Double object, String name) {
-        baseNumberValue.put(name,object);
+        baseNumberValue.put(name, object);
     }
 
     public void visitBoolean(final Boolean object, String name) {
-        baseStringValue.put(name,object.toString());
+        baseStringValue.put(name, object.toString());
     }
 
-    public void visitObject(final Object object, String name){
+    public void visitObject(final Object object, String name) {
 
     }
 

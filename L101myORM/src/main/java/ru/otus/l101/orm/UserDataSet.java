@@ -16,7 +16,7 @@ public class UserDataSet extends DataSet{
         return age;
     }
 
-    public UserDataSet(final String name, final int age) {
+    public UserDataSet(final String name, final Integer age) {
         this.name = name;
         this.age = age;
     }

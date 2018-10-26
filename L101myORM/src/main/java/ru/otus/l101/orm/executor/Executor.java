@@ -31,10 +31,10 @@ public class Executor<T extends DataSet>  {
     }
 
 
-    public int execUpdate(String update) throws SQLException {
+    public void execUpdate(String update) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(update);
-            return stmt.getUpdateCount();
+
         }
     }
 }

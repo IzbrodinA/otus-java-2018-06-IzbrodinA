@@ -1,16 +1,13 @@
 package ru.otus.l101.orm.base;
 
 
-
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import ru.otus.l101.orm.DataSet;
-import ru.otus.l101.orm.PrintQueryVisitor;
-import ru.otus.l101.orm.UserDataSet;
+import ru.otus.l101.orm.PrintQueryInsert;
+import ru.otus.l101.orm.PrintQuerySelect;
 import ru.otus.l101.orm.executor.Executor;
 
 import static ru.otus.l101.orm.base.ConnectionHelper.getConnection;
@@ -30,24 +27,23 @@ CREATE TABLE homeworkL10 (id bigint(20) NOT NUll auto_increment,
 public class DBServiceImpl implements DBService {
 
     private static final String CREATE_TABLE_USER = "create table if not exists  homeworkL10 (id bigint(20) NOT NUll" +
-                                                    " auto_increment, name VARCHAR(255), age int(3), PRIMARY KEY (id));";
+            " auto_increment, name VARCHAR(255), age int(3), PRIMARY KEY (id));";
 
     private static final String DELETE_USER = "drop table homeworkL10";
 
 
     private final Connection connection;
-    private Executor exec;
+    private Executor<DataSet> exec;
 
     public DBServiceImpl() {
         connection = getConnection();
-        exec = new Executor(getConnection());
+        exec = new Executor<>(getConnection());
 
         try {
             prepareTables();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
 
     }
@@ -73,26 +69,35 @@ public class DBServiceImpl implements DBService {
 
 
     @Override
-    public <T extends DataSet> void save (T user) throws SQLException {
-        PrintQueryVisitor pqv = new PrintQueryVisitor();
-        String insert = pqv.visit(user);
-        exec.execUpdate(insert);
+    public <T extends DataSet> void save(T user) throws SQLException {
+
+        String insert = new PrintQueryInsert().visit(user);
+
     }
+
     @Override
-    public <T extends DataSet> T load(long id , Class<T> clazz) throws SQLException {
-//        String select= "kk";
-//        return (T) exec.execQuery(String.format(select, id), result -> {
-//            result.next();
-//            return result.getString("name");
-//        });
-        return null;
+    @SuppressWarnings("unchecked")
+    public <T extends DataSet> T load(long id, Class<T> clazz) throws SQLException {
+        List<String> listNameFields = ReflectionHelper.getListFields(clazz);
+        String select = PrintQuerySelect.getQuerySelect(listNameFields);
+        select += "id=" + id;
+        return (T) exec.execQuery(select, result -> {
+            Object[] args = new Object[listNameFields.size()];
+            result.next();
+            for (int i = 0; i < listNameFields.size(); i++) {
+                args[i] = result.getObject(listNameFields.get(i));
+            }
+            DataSet dataSet = ReflectionHelper.instantiate(clazz, args);
+            Objects.requireNonNull(dataSet).setId(id);
+            return dataSet;
+        });
+
     }
 
     @Override
     public void deleteTables() throws SQLException {
-            exec.execUpdate(DELETE_USER);
-        }
-
+        exec.execUpdate(DELETE_USER);
+    }
 
 
     @Override
