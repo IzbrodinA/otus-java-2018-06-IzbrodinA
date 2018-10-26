@@ -6,11 +6,12 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 import ru.otus.l101.orm.DataSet;
-import ru.otus.l101.orm.PrintQueryInsert;
-import ru.otus.l101.orm.PrintQuerySelect;
+import ru.otus.l101.orm.executor.PrintQueryInsert;
+import ru.otus.l101.orm.executor.PrintQuerySelect;
 import ru.otus.l101.orm.executor.Executor;
+import ru.otus.l101.orm.helpers.ReflectionHelper;
 
-import static ru.otus.l101.orm.base.ConnectionHelper.getConnection;
+import static ru.otus.l101.orm.helpers.ConnectionHelper.getConnection;
 
 /*
 

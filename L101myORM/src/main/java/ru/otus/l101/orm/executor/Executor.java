@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import ru.otus.l101.orm.DataSet;
-import ru.otus.l101.orm.base.TResultHandler;
 
 public class Executor<T extends DataSet>  {
 

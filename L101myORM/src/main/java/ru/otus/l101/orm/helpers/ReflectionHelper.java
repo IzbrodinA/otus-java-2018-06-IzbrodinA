@@ -1,4 +1,4 @@
-package ru.otus.l101.orm.base;
+package ru.otus.l101.orm.helpers;
 
 
 
@@ -14,11 +14,11 @@ import java.util.List;
  * Created by tully.
  */
 @SuppressWarnings("SameParameterValue")
-class ReflectionHelper {
+public class ReflectionHelper {
     private ReflectionHelper() {
     }
 
-    static <T> T instantiate(Class<T> type, Object... args) {
+   public static <T> T instantiate(Class<T> type, Object... args) {
         try {
             if (args.length == 0) {
                 return type.getDeclaredConstructor().newInstance();
@@ -33,7 +33,7 @@ class ReflectionHelper {
         return null;
     }
 
-    static List<String> getListFields(final Class<?> clazz) {
+    public static List<String> getListFields(final Class<?> clazz) {
         Field fields[] = clazz.getDeclaredFields();
         Field field;
         List<String> listFields = new ArrayList<>();

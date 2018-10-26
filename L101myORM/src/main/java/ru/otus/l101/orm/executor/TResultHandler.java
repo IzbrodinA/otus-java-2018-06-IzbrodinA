@@ -1,4 +1,4 @@
-package ru.otus.l101.orm.base;
+package ru.otus.l101.orm.executor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package ru.otus.l101.orm;
+package ru.otus.l101.orm.executor;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

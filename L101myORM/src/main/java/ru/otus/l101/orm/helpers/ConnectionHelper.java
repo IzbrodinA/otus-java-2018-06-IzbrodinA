@@ -1,4 +1,4 @@
-package ru.otus.l101.orm.base;
+package ru.otus.l101.orm.helpers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionHelper {
-    static Connection getConnection() {
+    public static Connection getConnection() {
         try {
             //Driver driver = new com.mysql.cj.jdbc.Driver();
             Driver driver = (Driver) Class.forName("com.mysql.cj.jdbc.Driver").getConstructor().newInstance();
