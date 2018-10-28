@@ -11,6 +11,7 @@ import ru.otus.l101.orm.executor.PrintQuerySelect;
 import ru.otus.l101.orm.executor.Executor;
 import ru.otus.l101.orm.helpers.ReflectionHelper;
 
+import static ru.otus.l101.orm.helpers.ConnectionHelper.closeConnection;
 import static ru.otus.l101.orm.helpers.ConnectionHelper.getConnection;
 
 /*
@@ -93,6 +94,7 @@ public class DBServiceImpl implements DBService {
             return dataSet;
         });
 
+
     }
 
     @Override
@@ -102,8 +104,7 @@ public class DBServiceImpl implements DBService {
 
 
     @Override
-    public void close() throws Exception {
-        connection.close();
-
+    public void close() {
+     closeConnection(connection);
     }
 }

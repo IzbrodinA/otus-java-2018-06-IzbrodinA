@@ -11,11 +11,8 @@ public class Executor<T extends DataSet>  {
     private final Connection connection;
 
     public Executor(Connection connection) {
-
         this.connection = connection;
     }
-
-
 
     Connection getConnection() {
         return connection;
@@ -33,7 +30,6 @@ public class Executor<T extends DataSet>  {
     public void execUpdate(String update) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(update);
-
         }
     }
 }

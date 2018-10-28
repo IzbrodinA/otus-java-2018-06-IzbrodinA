@@ -1,9 +1,6 @@
 package ru.otus.l101.orm.executor;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class PrintQuerySelect {
@@ -16,6 +13,12 @@ public class PrintQuerySelect {
         }
         select.replace(select.length() -2, select.length(), " from homeworkL10 where ");
         return select.toString();
+    }
+
+    static public String getQuerySelect(List<String> nameFields, long id){
+        String query = getQuerySelect(nameFields);
+        query += "id=" + id;
+        return query;
     }
 
 
