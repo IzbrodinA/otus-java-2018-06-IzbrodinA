@@ -32,4 +32,12 @@ public class ConnectionHelper {
             throw new RuntimeException(e);
         }
     }
+
+    public static void closeConnection(Connection connection){
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
