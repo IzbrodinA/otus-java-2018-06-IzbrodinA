@@ -11,15 +11,11 @@ public class PrintQuerySelect {
         for (String field: nameFields) {
             select.append(field).append(", ");
         }
-        select.replace(select.length() -2, select.length(), " from homeworkL10 where ");
+        select.replace(select.length() -2, select.length(), " FROM homeworkL10 WHERE id = ? ;");
         return select.toString();
     }
 
-    static public String getQuerySelect(List<String> nameFields, long id){
-        String query = getQuerySelect(nameFields);
-        query += "id=" + id;
-        return query;
-    }
+
 
 
 

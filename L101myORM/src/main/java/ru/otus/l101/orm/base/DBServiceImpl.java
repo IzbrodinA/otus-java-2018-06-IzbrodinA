@@ -14,6 +14,7 @@ import ru.otus.l101.orm.helpers.ReflectionHelper;
 import static ru.otus.l101.orm.helpers.ConnectionHelper.closeConnection;
 import static ru.otus.l101.orm.helpers.ConnectionHelper.getConnection;
 
+
 /*
 
 CREATE USER 'izbro'@'localhost' IDENTIFIED BY 'Izbrodin123/*';
@@ -38,6 +39,7 @@ public class DBServiceImpl implements DBService {
     private Executor<DataSet> exec;
 
     public DBServiceImpl() {
+
         connection = getConnection();
         exec = new Executor<>(getConnection());
 
@@ -53,10 +55,10 @@ public class DBServiceImpl implements DBService {
     @Override
     public String getMetaData() {
         try {
-            return "Connected to: " + getConnection().getMetaData().getURL() + "\n" +
-                    "DB name: " + getConnection().getMetaData().getDatabaseProductName() + "\n" +
-                    "DB version: " + getConnection().getMetaData().getDatabaseProductVersion() + "\n" +
-                    "Driver: " + getConnection().getMetaData().getDriverName();
+            return "Connected to: " + connection.getMetaData().getURL() + "\n" +
+                    "DB name: " + connection.getMetaData().getDatabaseProductName() + "\n" +
+                    "DB version: " + connection.getMetaData().getDatabaseProductVersion() + "\n" +
+                    "Driver: " + connection.getMetaData().getDriverName();
         } catch (SQLException e) {
             e.printStackTrace();
             return e.getMessage();
@@ -72,9 +74,8 @@ public class DBServiceImpl implements DBService {
 
     @Override
     public <T extends DataSet> void save(T user) throws SQLException {
-
         String insert = new PrintQueryInsert().visit(user);
-
+        exec.execUpdate(insert);
     }
 
     @Override
@@ -82,8 +83,8 @@ public class DBServiceImpl implements DBService {
     public <T extends DataSet> T load(long id, Class<T> clazz) throws SQLException {
         List<String> listNameFields = ReflectionHelper.getListFields(clazz);
         String select = PrintQuerySelect.getQuerySelect(listNameFields);
-        select += "id=" + id;
-        return (T) exec.execQuery(select, result -> {
+//        System.out.println(select);
+        return (T) exec.execQuery(select, id, result -> {
             Object[] args = new Object[listNameFields.size()];
             result.next();
             for (int i = 0; i < listNameFields.size(); i++) {
@@ -91,6 +92,7 @@ public class DBServiceImpl implements DBService {
             }
             DataSet dataSet = ReflectionHelper.instantiate(clazz, args);
             Objects.requireNonNull(dataSet).setId(id);
+            result.close();
             return dataSet;
         });
 
