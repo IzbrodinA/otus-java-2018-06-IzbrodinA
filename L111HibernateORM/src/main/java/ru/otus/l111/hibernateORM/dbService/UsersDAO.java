@@ -15,7 +15,7 @@ public class UsersDAO {
         session.save(dataSet);
     }
     public <T extends DataSet> T load (long id, Class<T> tClass){
-        return session.load(tClass, id);
+        return session.get(tClass, id);
     }
 
 }
