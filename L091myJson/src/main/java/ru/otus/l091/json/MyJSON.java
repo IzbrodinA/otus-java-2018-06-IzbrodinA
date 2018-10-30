@@ -7,33 +7,30 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonStructure;
-import javax.json.JsonValue;
 import javax.json.JsonWriter;
 
 
 public class MyJSON {
-    private myType typeObj;
-    private myType typeJSON;
+    private MyTypes typeObj;
+
     private PrintReflector printReflector = new PrintReflector();
     private String IF_FIRST_OBJECT_IS_NOT_OBJECT = "IF_FIRST_OBJECT_IS_NOT_OBJECT";
 
     public String toJson(Object obj) {
         defineType(obj);
-        if (typeObj == myType.NULL) {
+        if (typeObj == MyTypes.NULL) {
             return "null";
         }
-        if (typeObj == myType.PRIMITIVE){
+        if (typeObj == MyTypes.PRIMITIVE){
             if (String.class.isAssignableFrom(obj.getClass()) || Character.class.isAssignableFrom(obj.getClass())){
                 obj = "\""+obj + "\"";
             }
             return obj.toString();
         }
-        if (typeObj == myType.ARRAY) {
+        if (typeObj == MyTypes.ARRAY) {
             return writeToString(buildTree(null, obj, null).build().getJsonArray(IF_FIRST_OBJECT_IS_NOT_OBJECT));
         }
 
@@ -42,11 +39,11 @@ public class MyJSON {
 
     private JsonObjectBuilder buildTree(JsonObjectBuilder tree, final Object obj, final String key) {
         defineType(obj);
-        if (typeObj == myType.NULL || typeObj == myType.PRIMITIVE) {
+        if (typeObj == MyTypes.NULL || typeObj == MyTypes.PRIMITIVE) {
                 tree = printReflector.visit(obj, key, tree);
-        } else if (typeObj == myType.ARRAY) {
+        } else if (typeObj == MyTypes.ARRAY) {
             tree = joinJSONArray(tree, obj, key);
-        } else if (typeObj == myType.OBJECT) {
+        } else if (typeObj == MyTypes.OBJECT) {
             tree = joinJSONObject(tree, obj, key);
         }
         return tree;
@@ -55,15 +52,15 @@ public class MyJSON {
 
     private void defineType(final Object obj) {
         if (obj == null) {
-            typeObj = myType.NULL;
+            typeObj = MyTypes.NULL;
         } else {
             Class<?> objClass = obj.getClass();
             if (isPrimitive(objClass)) {
-                typeObj = myType.PRIMITIVE;
+                typeObj = MyTypes.PRIMITIVE;
             } else if (objClass.isArray() || Collection.class.isAssignableFrom(objClass)) {
-                typeObj = myType.ARRAY;
+                typeObj = MyTypes.ARRAY;
             } else {
-                typeObj = myType.OBJECT;
+                typeObj = MyTypes.OBJECT;
             }
         }
     }
@@ -82,7 +79,7 @@ public class MyJSON {
                     if (arrayIsGetPrimitive) {
                         array = printReflector.visit(elementCollection, null, array);
                     } else {
-                        array.add(buildTree(json, elementCollection, null));
+                        array.add(buildTree(null, elementCollection, null));
                     }
             }
         }else {
@@ -96,7 +93,7 @@ public class MyJSON {
                 if (arrayIsGetPrimitive) {
                     array = printReflector.visit(Array.get(obj, i), null, array);
                 } else {
-                    array.add(buildTree(json, Array.get(obj, i), null));
+                    array.add(buildTree(null, Array.get(obj, i), null));
                 }
             }
         }
@@ -111,7 +108,11 @@ public class MyJSON {
 
     private JsonObjectBuilder joinJSONObject(JsonObjectBuilder json, final Object obj, final String key) {
         JsonObjectBuilder jsonObject = Json.createObjectBuilder();
-
+        if (json == null) {
+            json = jsonObject;
+        }else {
+            json.add(key,jsonObject);
+        }
         Field fields[] = obj.getClass().getDeclaredFields();
         Field field;
         for (int i = 0; i < fields.length; i++) {
@@ -123,16 +124,7 @@ public class MyJSON {
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
-           jsonObject = buildTree(jsonObject, value, field.getName());
-        }
-        if (json == null) {
-            json = jsonObject;
-        }else {
-            if (key==null){
-                json.add("null",jsonObject);
-            }else {
-                json.add(key, jsonObject);
-            }
+            jsonObject = buildTree(jsonObject, value, field.getName());
         }
         return json;
     }

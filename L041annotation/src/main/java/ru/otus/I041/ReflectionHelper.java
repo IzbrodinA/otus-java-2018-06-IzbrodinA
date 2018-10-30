@@ -92,6 +92,7 @@ class ReflectionHelper {
         Method[] methods ;
         try {
 
+
             methods = Arrays.stream(object.getClass().getDeclaredMethods())
                     .filter(x -> x.isAnnotationPresent(annotation))
                     .toArray(Method[]::new);
