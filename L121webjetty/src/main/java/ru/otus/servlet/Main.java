@@ -27,6 +27,8 @@ public class Main {
 
         server.start();
         server.join();
+        Object wa =new Object();
+        wa.wait();
         //return (Number) session.createCriteria("Book")
         //                  .setProjection(Projections.rowCount())
         //                  .uniqueResult();
