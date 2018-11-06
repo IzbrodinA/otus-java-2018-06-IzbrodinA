@@ -7,23 +7,23 @@ import java.util.List;
 import java.util.Random;
 
 @SuppressWarnings("ALL")
-public  class MergeSortThread {
-    private static int SIZE_ARRAY ;
+public class MergeSortThread {
+    private static int SIZE_ARRAY;
     private static int SIZE_THREADS = 4;
     private static List<Thread> pool_Threads = new ArrayList<>();
     private static Integer countThread = 0;
-    static int[] array ;
-    private static int SIZE_PART_ARRAY ;
+    static int[] array;
+    private static int SIZE_PART_ARRAY;
 
 
     public synchronized static void sort(int[] arrays) {
         array = arrays;
         SIZE_ARRAY = arrays.length;
-        if (SIZE_ARRAY == 0){
+        if (SIZE_ARRAY == 0) {
             return;
         }
 
-        if (SIZE_ARRAY < 4){
+        if (SIZE_ARRAY < 4) {
             // Size very small;
             Arrays.sort(array);
             return;
@@ -31,19 +31,21 @@ public  class MergeSortThread {
 
         SIZE_PART_ARRAY = SIZE_ARRAY % SIZE_THREADS != 0 ? SIZE_ARRAY / SIZE_THREADS + 1 : SIZE_ARRAY / SIZE_THREADS;
 
-            for (int i = 0; i < SIZE_THREADS; i++) {
-                pool_Threads.add(new Thread(() -> {
-                    sortPartArray();
-                }));
+        for (int i = 0; i < SIZE_THREADS; i++) {
+            pool_Threads.add(new Thread(() -> {
+                sortPartArray();
+            }));
+        }
+//         pool_Threads.forEach(x -> System.out.println(x.getName()));
+        pool_Threads.forEach(x -> x.start());
+        pool_Threads.forEach(thread -> {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            pool_Threads.forEach(x -> x.start());
-            pool_Threads.forEach(thread -> {
-                try {
-                    thread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
+        });
+        pool_Threads.clear();
 
 
         merge(0, SIZE_PART_ARRAY - 1, SIZE_PART_ARRAY * 2 - 1);
@@ -92,12 +94,12 @@ public  class MergeSortThread {
 
         synchronized (countThread) {
             sizePart = countThread++;
-        }
             low = sizePart * (SIZE_PART_ARRAY);
             high = (sizePart + 1) * (SIZE_PART_ARRAY);
-
-        if (high > SIZE_ARRAY) {
+        }
+        if (high >= SIZE_ARRAY) {
             high = SIZE_ARRAY;
+            countThread = 0;
         }
         int[] sortPartArrays = Arrays.copyOfRange(array, low, high);
         Arrays.sort(sortPartArrays);
