@@ -11,9 +11,11 @@ import static org.junit.Assert.*;
 public class MergeSortThreadTest {
 
    Random random;
+   MergeSortThread mergeSortThread;
     @Before
     public void setUp() throws Exception {
         random = new Random();
+        mergeSortThread = new MergeSortThread();
 
     }
 
@@ -21,7 +23,7 @@ public class MergeSortThreadTest {
     public void checkNull() {
         int[] array = new int[0];
         int[] copyArray = Arrays.copyOf(array, array.length);
-        MergeSortThread.sort(array);
+        mergeSortThread.sort(array);
         Arrays.sort(copyArray);
         assertArrayEquals(copyArray, array);
     }
@@ -34,7 +36,7 @@ public class MergeSortThreadTest {
             array[i] = random.nextInt(1000);
         }
         int[] copyArray = Arrays.copyOf(array, array.length);
-        MergeSortThread.sort(array);
+        mergeSortThread.sort(array);
         Arrays.sort(copyArray);
         assertArrayEquals(copyArray, array);
     }
@@ -48,7 +50,7 @@ public class MergeSortThreadTest {
         }
 
         int[] copyArray = Arrays.copyOf(array, array.length);
-        MergeSortThread.sort(array);
+        mergeSortThread.sort(array);
         Arrays.sort(copyArray);
         assertArrayEquals(copyArray, array);
     }
@@ -63,7 +65,7 @@ public class MergeSortThreadTest {
         }
         int[] copyArray = Arrays.copyOf(array, array.length);
 
-        MergeSortThread.sort(array);
+        mergeSortThread.sort(array);
         Arrays.sort(copyArray);
 
         assertArrayEquals(copyArray, array);
@@ -78,7 +80,23 @@ public class MergeSortThreadTest {
         }
         int[] copyArray = Arrays.copyOf(array, array.length);
 
-        MergeSortThread.sort(array);
+        mergeSortThread.sort(array);
+        Arrays.sort(copyArray);
+
+        assertArrayEquals(copyArray, array);
+    }
+
+    @Test
+    public void checkTwiceArrayLength19() {
+        int[] array = new int[19];
+
+        for (int i = 0; i < array.length; i++) {
+            array[i] = random.nextInt(1000);
+        }
+        int[] copyArray = Arrays.copyOf(array, array.length);
+
+        mergeSortThread.sort(array);
+        mergeSortThread.sort(array);
         Arrays.sort(copyArray);
 
         assertArrayEquals(copyArray, array);
@@ -93,7 +111,7 @@ public class MergeSortThreadTest {
         }
         int[] copyArray = Arrays.copyOf(array, array.length);
 
-        MergeSortThread.sort(array);
+        mergeSortThread.sort(array);
         Arrays.sort(copyArray);
 
         assertArrayEquals(copyArray, array);
