@@ -11,9 +11,11 @@ import static org.junit.Assert.*;
 public class MergeSortThreadTest {
 
    Random random;
+
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         random = new Random();
+
 
     }
 
@@ -78,6 +80,22 @@ public class MergeSortThreadTest {
         }
         int[] copyArray = Arrays.copyOf(array, array.length);
 
+        MergeSortThread.sort(array);
+        Arrays.sort(copyArray);
+
+        assertArrayEquals(copyArray, array);
+    }
+
+    @Test
+    public void checkTwiceArrayLength19() {
+        int[] array = new int[19];
+
+        for (int i = 0; i < array.length; i++) {
+            array[i] = random.nextInt(1000);
+        }
+        int[] copyArray = Arrays.copyOf(array, array.length);
+
+        MergeSortThread.sort(array);
         MergeSortThread.sort(array);
         Arrays.sort(copyArray);
 

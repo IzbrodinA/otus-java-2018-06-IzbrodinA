@@ -11,12 +11,11 @@ public class MergeSortThread {
     private static int SIZE_ARRAY;
     private static int SIZE_THREADS = 4;
     private static List<Thread> pool_Threads = new ArrayList<>();
-    private static Integer countThread = 0;
     static int[] array;
     private static int SIZE_PART_ARRAY;
 
 
-    public synchronized static void sort(int[] arrays) {
+    public static void sort(int[] arrays) {
         array = arrays;
         SIZE_ARRAY = arrays.length;
         if (SIZE_ARRAY == 0) {
@@ -32,11 +31,15 @@ public class MergeSortThread {
         SIZE_PART_ARRAY = SIZE_ARRAY % SIZE_THREADS != 0 ? SIZE_ARRAY / SIZE_THREADS + 1 : SIZE_ARRAY / SIZE_THREADS;
 
         for (int i = 0; i < SIZE_THREADS; i++) {
+            int low = i * (SIZE_PART_ARRAY);
+            int end = (i + 1) * (SIZE_PART_ARRAY);
+            int high = end > SIZE_ARRAY ? SIZE_ARRAY : end; // SIZE_ARRAY % SIZE_THREADS != 0
+            int[] partArrays = Arrays.copyOfRange(array, low, high);
             pool_Threads.add(new Thread(() -> {
-                sortPartArray();
+                sortPartArray(partArrays, low, high);
             }));
         }
-//         pool_Threads.forEach(x -> System.out.println(x.getName()));
+
         pool_Threads.forEach(x -> x.start());
         pool_Threads.forEach(thread -> {
             try {
@@ -68,7 +71,6 @@ public class MergeSortThread {
         int k = low;
         i = j = 0;
 
-
         while (i < n1 && j < n2) {
             if (left[i] <= right[j])
                 array[k++] = left[i++];
@@ -76,35 +78,19 @@ public class MergeSortThread {
                 array[k++] = right[j++];
         }
 
-
         while (i < n1) {
             array[k++] = left[i++];
         }
-
 
         while (j < n2) {
             array[k++] = right[j++];
         }
     }
 
-    private static void sortPartArray() {
-        int sizePart;
-        int low;
-        int high;
-
-        synchronized (countThread) {
-            sizePart = countThread++;
-            low = sizePart * (SIZE_PART_ARRAY);
-            high = (sizePart + 1) * (SIZE_PART_ARRAY);
-        }
-        if (high >= SIZE_ARRAY) {
-            high = SIZE_ARRAY;
-            countThread = 0;
-        }
-        int[] sortPartArrays = Arrays.copyOfRange(array, low, high);
-        Arrays.sort(sortPartArrays);
+    private static void sortPartArray(int[] partArrays, int low, int high) {
+        Arrays.sort(partArrays);
         for (int i = low; i < high; i++) {
-            array[i] = sortPartArrays[i - low];
+            array[i] = partArrays[i - low];
         }
 
     }
