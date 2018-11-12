@@ -7,14 +7,22 @@
 <div class="top">
     <img src="logo.png"/>
     <br/>
-    <a href="login">Login</a> <a href="admin">Admin</a> <a href="timer">Timer</a>
+    <a href="login">Login</a>
 </div>
 <div class="login">
     <form action="/login" method="POST">
-        login: <input type="text" name="login"/>
-        <input type="submit" value="submit">
+        save user: <input type="text" name="save"/>
+        <input type="submit" value="send">
     </form>
-    <p>Previous login: ${login}</p>
+    <form action="/login" method="POST">
+        load user by ID: <input type="text" name="load"/>
+        <input type="submit" value="send">
+    </form>
+    <p>Previous login: ${user}</p>
+    <form action="/login" method="POST">
+        <input type="submit"  value="Count user" name="count"> ${count} </p>
+    </form>
 </div>
+
 </body>
 </html>

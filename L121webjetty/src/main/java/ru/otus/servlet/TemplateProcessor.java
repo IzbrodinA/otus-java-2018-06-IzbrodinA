@@ -13,7 +13,7 @@ import java.util.Map;
  * @author v.chibrikov
  */
 class TemplateProcessor {
-    private static final String HTML_DIR = "tml";
+    private static final String HTML_DIR = "L121webjetty/tml";
 
     private final Configuration configuration;
 
