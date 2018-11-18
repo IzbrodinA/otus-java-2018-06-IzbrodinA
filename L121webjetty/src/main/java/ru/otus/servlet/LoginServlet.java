@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
     private static Logger logger = LoggerFactory.getLogger(LoginServlet.class);
 
     private final TemplateProcessor templateProcessor;
-    private DBService dbService;
+    private final DBService dbService;
 //    String login;
 
     LoginServlet(TemplateProcessor templateProcessor, DBService dbService) {
@@ -45,51 +45,70 @@ public class LoginServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+
+        String loadUser = request.getParameter(LOAD_USER_NAME);
+        UsersDataSet user = loadUserDB(loadUser, response);
+        String currentLogin = user == null ? "no request" : user.getName();
+
+        String countUser = request.getParameter(COUNT_USER);
+        long count = countAllUser(countUser, response);
+
+        setOK(response);
+        String page = getPage(currentLogin, count); //save to the page
+        response.getWriter().println(page);
+
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
 
         String saveUser = request.getParameter(SAVE_USER_NAME);
+        saveUserDB(saveUser, response);
+
+        setOK(response);
+        String page = getPage(null, 0); //save to the page
+        response.getWriter().println(page);
+
+    }
+
+    private UsersDataSet loadUserDB(String loadUser, final HttpServletResponse response) throws IOException {
+        UsersDataSet user = null;
+        if (loadUser != null) {
+            try {
+                user = dbService.load(Long.parseLong(loadUser), UsersDataSet.class);
+                if (user == null) {
+                    throw new SQLException();
+                }
+            } catch (SQLException e) {
+                logger.error("DB can't load user", e);
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "B can't load user"); }
+        }
+        return user;
+    }
+
+    private long countAllUser(String countUser, final HttpServletResponse response) throws IOException {
+        long count = 0;
+        if (countUser != null) {
+            try {
+                count = (long) dbService.countUser();
+            } catch (SQLException e) {
+                logger.error("DB can't count user", e);
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "B can't count user");
+            }
+        }
+        return count;
+    }
+
+    private void saveUserDB(String saveUser, final HttpServletResponse response) {
         if (saveUser != null) {
             try {
                 dbService.save(new UsersDataSet(saveUser));
             } catch (SQLException e) {
                 logger.error("DB can't save user", e);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
-
-        String loadUser = request.getParameter(LOAD_USER_NAME);
-        UsersDataSet user = null;
-        String currentLogin;
-        if (loadUser != null) {
-            try {
-                 user = dbService.load(Long.parseLong(loadUser), UsersDataSet.class);
-            } catch (SQLException e) {
-                logger.error("DB can't save user", e);
-            }
-        }
-
-        if (user == null) {
-            currentLogin = "no request";
-        }else {
-            currentLogin = user.getName();
-        }
-        long count = 0;
-        if (request.getParameter(COUNT_USER) != null){
-            try {
-                count = (long)dbService.countUser();
-            } catch (SQLException e) {
-                logger.error("DB can't count user", e);
-            }
-        }
-        setOK(response);
-
-        String page = getPage(currentLogin,count); //save to the page
-        response.getWriter().println(page);
     }
-
 
 
     private void setOK(HttpServletResponse response) {

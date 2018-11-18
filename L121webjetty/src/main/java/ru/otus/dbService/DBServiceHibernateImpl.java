@@ -68,6 +68,7 @@ public class DBServiceHibernateImpl implements DBService {
         return runInSession(session -> {
             UsersDAO dao = new UsersDAO(session);
             T object = dao.load(id, clazz);
+
             return object;
         });
     }

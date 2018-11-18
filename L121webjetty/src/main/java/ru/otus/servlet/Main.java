@@ -13,7 +13,7 @@ public class Main {
 
     private final static int PORT = 8090;
     private final static String PUBLIC_HTML = "L121webjetty/public_html";
-//    private final static String PUBLIC_HTML = "121webjetty/tml";
+
 
     public static void main(String[] args) throws Exception {
       
@@ -32,8 +32,6 @@ public class Main {
         server.start();
         server.join();
 
-        //return (Number) session.createCriteria("Book")
-        //                  .setProjection(Projections.rowCount())
-        //                  .uniqueResult();
+
     }
 }
