@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Login</title>
+</head>
+<body>
+<div class="top">
+    <img src="logo.png"/>
+    <br/>
+    <a href="login">Login</a>
+</div>
+<div class="login">
+    <form action="/login" method="POST">
+        save user: <input type="text" name="save"/>
+        <input type="submit" value="send">
+    </form>
+    <form action="/login" method="POST">
+        load user by ID: <input type="text" name="load"/>
+        <input type="submit" value="send">
+    </form>
+    <p>Previous login: ${user}</p>
+    <form action="/login" method="POST">
+        <input type="submit"  value="Count user" name="count"> ${count} </p>
+    </form>
+</div>
+
+</body>
+</html>

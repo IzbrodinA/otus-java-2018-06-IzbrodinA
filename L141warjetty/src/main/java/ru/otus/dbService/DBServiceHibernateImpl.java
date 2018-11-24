@@ -1,17 +1,16 @@
-package ru.otus.l111.hibernateORM.dbService;
+package ru.otus.dbService;
 
 import java.sql.SQLException;
 import java.util.function.Function;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-import ru.otus.l111.hibernateORM.dataSets.AddressDataSet;
-import ru.otus.l111.hibernateORM.dataSets.DataSet;
-import ru.otus.l111.hibernateORM.dataSets.UsersDataSet;
+import ru.otus.dataSets.DataSet;
+import ru.otus.dataSets.UsersDataSet;
+
 
 public class DBServiceHibernateImpl implements DBService {
     private final SessionFactory sessionFactory;
@@ -20,18 +19,15 @@ public class DBServiceHibernateImpl implements DBService {
         Configuration configuration = new Configuration();
 
         configuration.addAnnotatedClass(UsersDataSet.class);
-        configuration.addAnnotatedClass(AddressDataSet.class);
-
 
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/hwl11");
+        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/hwl12");
         configuration.setProperty("hibernate.connection.username", "izbro");
         configuration.setProperty("hibernate.connection.password", "Izbrodin123/*");
         configuration.setProperty("hibernate.show_sql", "true");
         configuration.setProperty("hibernate.hbm2ddl.auto", "create");
         configuration.setProperty("hibernate.connection.useSSL", "false");
-
         configuration.setProperty("hibernate.enable_lazy_load_no_trans", "true");
 
         sessionFactory = createSessionFactory(configuration);
@@ -69,9 +65,20 @@ public class DBServiceHibernateImpl implements DBService {
         return runInSession(session -> {
             UsersDAO dao = new UsersDAO(session);
             T object = dao.load(id, clazz);
+
             return object;
         });
     }
+
+    @Override
+    public  long countUser() throws SQLException {
+            return runInSession(session -> {
+                UsersDAO dao = new UsersDAO(session);
+                return dao.countAllUsers();
+            });
+        }
+
+
 
     @Override
     public void shutdown() {
