@@ -11,11 +11,11 @@ public class DataSet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    long getId() {
+    public long getId() {
         return id;
     }
 
-    void setId(long id) {
+    public void setId(long id) {
         this.id = id;
     }
 }

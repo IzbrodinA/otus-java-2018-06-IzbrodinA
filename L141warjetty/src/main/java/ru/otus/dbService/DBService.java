@@ -13,6 +13,7 @@ public interface DBService {
     public <T extends DataSet> T load(long id, Class<T> clazz) throws SQLException;
 
     public long countUser() throws SQLException;
+    public long countUsersInCach();
 
     void shutdown();
 

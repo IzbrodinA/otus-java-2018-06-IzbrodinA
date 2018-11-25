@@ -6,9 +6,6 @@
     <bean id="dbService" class="ru.otus.dbService.DBServiceHibernateImpl">
     </bean>
 
-    <bean id="myEhCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-        <property name="configLocation" value="classpath:ehcache.xml"/>
-    </bean>
 
     <bean id="templateProcessor" class="ru.otus.servlet.TemplateProcessor"/>
 

@@ -5,16 +5,16 @@
     <display-name>L14</display-name>
     <description>Homework 14</description>
 
-    <!--&lt;!&ndash; HW14 path to Spring cfg &ndash;&gt;-->
-    <!--<context-param>-->
-        <!--<param-name>contextConfigLocation</param-name>-->
-        <!--<param-value>classpath:SpringBeans.xml</param-value>-->
-    <!--</context-param>-->
+    <!-- HW14 path to Spring cfg -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:SpringBeans.xml</param-value>
+    </context-param>
 
-    <!--&lt;!&ndash; HW14 Spring context load listener &ndash;&gt;-->
-    <!--<listener>-->
-        <!--<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
-    <!--</listener>-->
+    <!-- HW14 Spring context load listener -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
     <servlet>
         <servlet-name>loginServlet</servlet-name>

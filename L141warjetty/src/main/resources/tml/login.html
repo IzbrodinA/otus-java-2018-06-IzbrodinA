@@ -14,14 +14,15 @@
         save user: <input type="text" name="save"/>
         <input type="submit" value="send">
     </form>
-    <form action="/login" method="POST">
+    <form action="/login" method="GET">
         load user by ID: <input type="text" name="load"/>
         <input type="submit" value="send">
     </form>
     <p>Previous login: ${user}</p>
-    <form action="/login" method="POST">
+    <form action="/login" method="GET">
         <input type="submit"  value="Count user" name="count"> ${count} </p>
     </form>
+    <p>Cache manager name: ${cacheCount}</p>
 </div>
 
 </body>

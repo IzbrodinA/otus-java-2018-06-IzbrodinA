@@ -98,7 +98,7 @@
     </dependencies>
 
     <build>
-        <finalName>hw14</finalName>
+        <finalName>root</finalName>
 
         <plugins>
             <plugin>
