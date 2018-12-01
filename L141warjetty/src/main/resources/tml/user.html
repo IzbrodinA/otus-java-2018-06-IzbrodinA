@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>User</title>
+</head>
+<body>
+<div class="top">
+    <img src="logo.png"/>
+    <br/>
+    <a href="user">User</a>
+</div>
+<div class="user">
+    <form action="/user" method="POST">
+        save user: <input type="text" name="save"/>
+        <input type="submit" value="send">
+    </form>
+    <form action="/user" method="GET">
+        load user by ID: <input type="text" name="load"/>
+        <input type="submit" value="send">
+    </form>
+    <p>Previous login: ${user}</p>
+    <form action="/user" method="GET">
+        <input type="submit"  value="Count user" name="count"> ${count} </p>
+    </form>
+    <p>Cache manager name: ${cacheCount}</p>
+</div>
+
+</body>
+</html>

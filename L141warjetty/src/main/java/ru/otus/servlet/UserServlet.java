@@ -13,13 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import net.sf.ehcache.CacheManager;
+
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.otus.dataSets.UsersDataSet;
 import ru.otus.dbService.DBService;
 
 
-public class LoginServlet extends HttpServlet {
+public class UserServlet extends HttpServlet {
 
     public static final String SAVE_USER_NAME = "save";
     public static final String LOAD_USER_NAME = "load";
@@ -27,8 +27,8 @@ public class LoginServlet extends HttpServlet {
     private static final String LOGIN_VARIABLE_NAME = "user";
     private static final String COUNT_VARIABLE_NAME = "count";
     private static final String CACHE_VARIABLE_NAME = "cacheCount";
-    private static final String LOGIN_PAGE_TEMPLATE = "login.html";
-    private static Logger logger = LoggerFactory.getLogger(LoginServlet.class);
+    private static final String LOGIN_PAGE_TEMPLATE = "user.html";
+    private static Logger logger = LoggerFactory.getLogger(UserServlet.class);
 
     @Autowired
     private  TemplateProcessor templateProcessor;
