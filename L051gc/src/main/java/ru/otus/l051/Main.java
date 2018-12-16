@@ -30,7 +30,6 @@ import java.lang.management.ManagementFactory;
 
  -XX:+UseConcMarkSweepGC
 
-
  -XX:+UseSerialGC
 
 -XX:+PrintGC
