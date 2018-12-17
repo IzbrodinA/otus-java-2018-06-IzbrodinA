@@ -62,5 +62,6 @@ public class Main {
 
         mbean.setSize(size);
         mbean.run();
+
     }
 }
