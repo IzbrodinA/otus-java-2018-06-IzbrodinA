@@ -8,25 +8,34 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import ru.otus.app.MessageSystemContext;
 import ru.otus.dataSets.DataSet;
 import ru.otus.dataSets.UsersDataSet;
 import ru.otus.dbService.cache.CacheEngine;
 import ru.otus.dbService.cache.CacheEngineImpl;
 import ru.otus.dbService.cache.MyElement;
 
+import ru.otus.messageSystem.Address;
+import ru.otus.messageSystem.MessageSystem;
+
 
 public class DBServiceHibernateImpl implements DBService {
     private final SessionFactory sessionFactory;
     private final  CacheEngine<Long, DataSet> cache;
 
-    public DBServiceHibernateImpl() {
+    private final Address address;
+    private final MessageSystemContext context;
+
+    public DBServiceHibernateImpl(MessageSystemContext context) {
+
+        address = new Address("DBService");
+
+        this.context = context;
+        context.setDbAddress(this.address);
 
         cache = new CacheEngineImpl<>(5, 30_000, 0, false);
         Configuration configuration = new Configuration();
-
         configuration.addAnnotatedClass(UsersDataSet.class);
-
-
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
         configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/hwl12");
@@ -113,10 +122,13 @@ public class DBServiceHibernateImpl implements DBService {
     }
 
 
+    @Override
+    public Address getAddress() {
+        return address;
+    }
 
-
-
-
-
-
+    @Override
+    public MessageSystem getMS() {
+        return context.getMessageSystem();
+    }
 }

@@ -6,33 +6,34 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.otus.frontendServise.FrontendService;
+
 
 @WebSocket
-public class ChatWebSocket {
-    private Set<ChatWebSocket> users;
-    private Session session;
+public class UserWebSocket {
 
-    public ChatWebSocket(Set<ChatWebSocket> users) {
-        this.users = users;
+    private Session session;
+    private String id;
+    private FrontendService fronted;
+
+    private static Logger LOGGER = LoggerFactory.getLogger(UserWebSocket.class);
+
+    public UserWebSocket(FrontendService fronted) {
+        this.fronted = fronted;
     }
 
     @OnWebSocketMessage
-    public void onMessage(String data) {
-        for (ChatWebSocket user : users) {
-            try {
-                user.getSession().getRemote().sendString(data);
-                System.out.println("Sending message: " + data);
-            } catch (Exception e) {
-                System.out.print(e.toString());
-            }
-        }
+    public void onMessage( String data) {
+        LOGGER.info(data);
+        fronted.handleRequest(data);
     }
 
     @OnWebSocketConnect
     public void onOpen(Session session) {
-        users.add(this);
-        setSession(session);
-        System.out.println("onOpen");
+        fronted.setSession(session);
+        LOGGER.info("Open" + id);
     }
 
     public Session getSession() {
@@ -45,7 +46,8 @@ public class ChatWebSocket {
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
-        users.remove(this);
+       fronted.closeSession (session);
+       LOGGER.info("Close sesion" + id + " reason" + reason);
         System.out.println("onClose");
     }
 }

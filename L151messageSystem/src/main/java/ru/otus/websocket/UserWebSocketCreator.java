@@ -6,22 +6,24 @@ import java.util.logging.Logger;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
+import ru.otus.frontendServise.FrontendService;
 
 /**
  * @author v.chibrikov
  */
-public class ChatWebSocketCreator implements WebSocketCreator {
-    private final static Logger log = Logger.getLogger(ChatWebSocketCreator.class.getName());
-    private Set<ChatWebSocket> users;
+public class UserWebSocketCreator implements WebSocketCreator {
+    private final static Logger log = Logger.getLogger(UserWebSocketCreator.class.getName());
 
-    public ChatWebSocketCreator() {
-        this.users = ConcurrentHashMap.newKeySet();
-        log.info("WebSocketCreator created");
+    private FrontendService frontendService;
+
+    public UserWebSocketCreator(FrontendService frontend) {
+        this.frontendService = frontend;
+        log.info("UserWebSocketCreator created");
     }
 
     @Override
     public Object createWebSocket(ServletUpgradeRequest req, ServletUpgradeResponse resp) {
-        ChatWebSocket socket = new ChatWebSocket(users);
+        UserWebSocket socket = new UserWebSocket(frontendService);
         log.info("Socket created");
         return socket;
     }

@@ -7,6 +7,6 @@
     </bean>
 
 
-    <bean id="templateProcessor" class="ru.otus.servlet.TemplateProcessor"/>
+
 
 </beans>
